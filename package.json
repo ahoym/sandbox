@@ -1,0 +1,29 @@
+{
+  "name": "ahoym",
+  "version": "0.1.0",
+  "description": "My personal website and sandbox",
+  "main": "index.js",
+  "dependencies": {
+    "gulp": "^3.9.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AhoyM/AhoyM.git"
+  },
+  "keywords": [
+    "malcolm",
+    "ahoy",
+    "personal",
+    "website"
+  ],
+  "author": "Malcolm Ahoy",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AhoyM/AhoyM/issues"
+  },
+  "homepage": "https://github.com/AhoyM/AhoyM#readme"
+}
