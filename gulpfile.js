@@ -7,6 +7,7 @@ var connect = require('gulp-connect');
 var path = require('path');
 var reactify = require('reactify');
 var source = require('vinyl-source-stream');
+var sass = require('gulp-sass');
 var watchify = require('watchify');
 
 var paths = {
@@ -16,7 +17,8 @@ var paths = {
     'src/js/app.js'
   ],
   HTML: 'src/index.html',
-  OUT: 'bundle.js'
+  OUT: 'bundle.js',
+  SASS: 'src/sass/**/*.scss'
 };
 
 
@@ -56,8 +58,18 @@ gulp.task('buildJs', buildBundle);
 bundle.on('update', buildBundle);
 bundle.on('log', gutil.log);
 
-gulp.task('watch', ['copy', 'buildJs'], function () {
+gulp.task('sass', function () {
+  var cssDest = path.join(paths.DEV_SRC, 'css');
+
+  gulp.src(paths.SASS)
+    .pipe(sass.sync().on('error', sass.logError))
+    .pipe(gulp.dest(cssDest))
+    .pipe(connect.reload());
+});
+
+gulp.task('watch', ['copy', 'buildJs', 'sass'], function () {
   gulp.watch(paths.HTML, ['copy']);
+  gulp.watch(paths.SASS, ['sass']);
 });
 
 gulp.task('default', ['connect', 'watch']);
