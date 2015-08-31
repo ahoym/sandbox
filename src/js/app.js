@@ -1,4 +1,6 @@
 'use strict';
 
-console.log('hello world');
+var React = require('react');
+var Container = require('./components/container');
 
+React.render(<Container />, document.getElementById('app'));

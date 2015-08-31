@@ -2,8 +2,10 @@
 
 var browserify = require('browserify');
 var gulp = require('gulp');
+var gutil = require('gulp-util');
 var connect = require('gulp-connect');
 var path = require('path');
+var reactify = require('reactify');
 var source = require('vinyl-source-stream');
 var watchify = require('watchify');
 
@@ -12,7 +14,7 @@ var paths = {
   DEV_SRC: 'dev/src',
   ENTRY_POINTS: [
     'src/js/app.js'
-  ],  
+  ],
   HTML: 'src/index.html',
   OUT: 'bundle.js'
 };
@@ -31,34 +33,31 @@ gulp.task('copy', function () {
     .pipe(connect.reload());
 });
 
-var buildBundle = function(bsfyInstance) {
+var buildBundle = function() {
   var jsDest = path.join(paths.DEV_SRC, 'js');
 
-  return bsfyInstance.bundle()
+  return bundle.bundle()
+    .on('error', gutil.log.bind(gutil, 'Browserify Error'))
     .pipe(source(paths.OUT))
     .pipe(gulp.dest(jsDest))
     .pipe(connect.reload());
 };
 
-gulp.task('watch', ['copy'], function () { 
-  var updateCount = 0;
-  var watcher = watchify(browserify({
-    entries: paths.ENTRY_POINTS,
-    debug: true,
-    cache: {},
-    packageCache: {},
-    fullPaths: true
-  }));
-  
-  watcher.on('update', function () {
-    updateCount += 1;
-    console.log('Javascript files update', updateCount);
-    buildBundle(watcher);
-  });
+var bundle = watchify(browserify({
+  entries: paths.ENTRY_POINTS,
+  transform: [reactify],
+  debug: true,
+  cache: {},
+  packageCache: {},
+  fullPaths: true
+}));
 
+gulp.task('buildJs', buildBundle);
+bundle.on('update', buildBundle);
+bundle.on('log', gutil.log);
+
+gulp.task('watch', ['copy', 'buildJs'], function () {
   gulp.watch(paths.HTML, ['copy']);
-  return buildBundle(watcher);
 });
 
 gulp.task('default', ['connect', 'watch']);
-
