@@ -1,5 +1,6 @@
 'use strict';
 
+var babelify = require('babelify');
 var browserify = require('browserify');
 var gulp = require('gulp');
 var gutil = require('gulp-util');
@@ -47,7 +48,7 @@ var buildBundle = function() {
 
 var bundle = watchify(browserify({
   entries: paths.ENTRY_POINTS,
-  transform: [reactify],
+  transform: [babelify, reactify],
   debug: true,
   cache: {},
   packageCache: {},
