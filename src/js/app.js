@@ -1,6 +1,4 @@
-'use strict';
-
-var React = require('react');
-var Container = require('./components/container');
+import React from 'react';
+import Container from './components/container';
 
 React.render(<Container />, document.getElementById('app'));

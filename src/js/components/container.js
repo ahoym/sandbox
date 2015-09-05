@@ -1,12 +1,10 @@
-'use strict';
-
-var React = require('react');
-var classNames = require('classnames');
+import React from 'react';
+import classnames from 'classnames';
 
 
-var Container = React.createClass({
+export default React.createClass({
   render: function () {
-    var classes = classNames('container');
+    var classes = classnames('container');
 
     return (
       <div className={ classes }>
@@ -16,5 +14,3 @@ var Container = React.createClass({
     )
   }
 });
-
-module.exports = Container;
