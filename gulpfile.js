@@ -25,28 +25,6 @@ var paths = {
   SASS: 'src/sass/**/*.scss'
 };
 
-
-gulp.task('connect', function () {
-  connect.server({
-    root: 'dev/',
-    livereload: true
-  });
-});
-
-gulp.task('copy', function () {
-  gulp.src(paths.HTML)
-    .pipe(gulp.dest(paths.DEV))
-    .pipe(connect.reload());
-});
-
-gulp.task('copyAssets', function () {
-  var distAssets = path.join(paths.DEV_SRC, 'assets');
-
-  return gulp.src(paths.ASSETS, { base: 'src/assets/' })
-    .pipe(gulp.dest(distAssets))
-    .pipe(connect.reload());
-});
-
 var buildBundle = function() {
   var jsDest = path.join(paths.DEV_SRC, 'js');
 
@@ -65,24 +43,47 @@ var bundle = watchify(browserify({
   packageCache: {},
   fullPaths: true
 }));
-
-gulp.task('buildJs', buildBundle);
 bundle.on('update', buildBundle);
 bundle.on('log', gutil.log);
 
-gulp.task('sass', function () {
+
+gulp.task('buildCss', function () {
   var cssDest = path.join(paths.DEV_SRC, 'css');
 
-  gulp.src(paths.SASS)
+  return gulp.src(paths.SASS)
     .pipe(sass.sync().on('error', sass.logError))
     .pipe(gulp.dest(cssDest))
     .pipe(connect.reload());
 });
 
-gulp.task('watch', ['copy', 'copyAssets', 'buildJs', 'sass'], function () {
+gulp.task('buildJs', buildBundle);
+
+gulp.task('connect', function () {
+  connect.server({
+    root: 'dev/',
+    livereload: true
+  });
+});
+
+gulp.task('copy', function () {
+  return gulp.src(paths.HTML)
+    .pipe(gulp.dest(paths.DEV))
+    .pipe(connect.reload());
+});
+
+gulp.task('copyAssets', function () {
+  var distAssets = path.join(paths.DEV_SRC, 'assets');
+
+  return gulp.src(paths.ASSETS, { base: 'src/assets/' })
+    .pipe(gulp.dest(distAssets))
+    .pipe(connect.reload());
+});
+
+gulp.task('watch', ['copy', 'copyAssets', 'buildJs', 'buildCss'], function () {
   gulp.watch(paths.ASSETS, ['copyAssets']);
   gulp.watch(paths.HTML, ['copy']);
-  gulp.watch(paths.SASS, ['sass']);
+  // watchify already watches buildJs task
+  gulp.watch(paths.SASS, ['buildCss']);
 });
 
 gulp.task('default', ['connect', 'watch']);
