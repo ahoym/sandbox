@@ -12,6 +12,9 @@ var sass = require('gulp-sass');
 var watchify = require('watchify');
 
 var paths = {
+  ASSETS: [
+    'src/assets/img/**/*'
+  ],
   DEV: 'dev',
   DEV_SRC: 'dev/src',
   ENTRY_POINTS: [
@@ -33,6 +36,14 @@ gulp.task('connect', function () {
 gulp.task('copy', function () {
   gulp.src(paths.HTML)
     .pipe(gulp.dest(paths.DEV))
+    .pipe(connect.reload());
+});
+
+gulp.task('copyAssets', function () {
+  var distAssets = path.join(paths.DEV_SRC, 'assets');
+
+  return gulp.src(paths.ASSETS, { base: 'src/assets/' })
+    .pipe(gulp.dest(distAssets))
     .pipe(connect.reload());
 });
 
@@ -68,7 +79,8 @@ gulp.task('sass', function () {
     .pipe(connect.reload());
 });
 
-gulp.task('watch', ['copy', 'buildJs', 'sass'], function () {
+gulp.task('watch', ['copy', 'copyAssets', 'buildJs', 'sass'], function () {
+  gulp.watch(paths.ASSETS, ['copyAssets']);
   gulp.watch(paths.HTML, ['copy']);
   gulp.watch(paths.SASS, ['sass']);
 });
