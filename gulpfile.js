@@ -2,6 +2,7 @@
 
 var babelify = require('babelify');
 var browserify = require('browserify');
+var del = require('del');
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var connect = require('gulp-connect');
@@ -12,6 +13,9 @@ var sass = require('gulp-sass');
 var watchify = require('watchify');
 
 var paths = {
+  ASSETS: [
+    'src/assets/img/**/*'
+  ],
   DEV: 'dev',
   DEV_SRC: 'dev/src',
   ENTRY_POINTS: [
@@ -21,20 +25,7 @@ var paths = {
   OUT: 'bundle.js',
   SASS: 'src/sass/**/*.scss'
 };
-
-
-gulp.task('connect', function () {
-  connect.server({
-    root: 'dev/',
-    livereload: true
-  });
-});
-
-gulp.task('copy', function () {
-  gulp.src(paths.HTML)
-    .pipe(gulp.dest(paths.DEV))
-    .pipe(connect.reload());
-});
+var destinationDir = paths.DEV; //dev directory by default
 
 var buildBundle = function() {
   var jsDest = path.join(paths.DEV_SRC, 'js');
@@ -54,23 +45,56 @@ var bundle = watchify(browserify({
   packageCache: {},
   fullPaths: true
 }));
-
-gulp.task('buildJs', buildBundle);
 bundle.on('update', buildBundle);
 bundle.on('log', gutil.log);
 
-gulp.task('sass', function () {
+
+gulp.task('buildCss', function () {
   var cssDest = path.join(paths.DEV_SRC, 'css');
 
-  gulp.src(paths.SASS)
+  return gulp.src(paths.SASS)
     .pipe(sass.sync().on('error', sass.logError))
     .pipe(gulp.dest(cssDest))
     .pipe(connect.reload());
 });
 
-gulp.task('watch', ['copy', 'buildJs', 'sass'], function () {
-  gulp.watch(paths.HTML, ['copy']);
-  gulp.watch(paths.SASS, ['sass']);
+gulp.task('buildJs', buildBundle);
+
+gulp.task('clean', function () {
+  return del([ destinationDir ]);
 });
 
-gulp.task('default', ['connect', 'watch']);
+gulp.task('connect', function () {
+  connect.server({
+    root: 'dev/',
+    livereload: true
+  });
+});
+
+gulp.task('copy', function () {
+  return gulp.src(paths.HTML)
+    .pipe(gulp.dest(paths.DEV))
+    .pipe(connect.reload());
+});
+
+gulp.task('copyAssets', function () {
+  var distAssets = path.join(paths.DEV_SRC, 'assets');
+
+  return gulp.src(paths.ASSETS, { base: 'src/assets/' })
+    .pipe(gulp.dest(distAssets))
+    .pipe(connect.reload());
+});
+
+// Replace with gulp.series tasks when gulp 4 is complete
+gulp.task('build', ['clean'], function () {
+  return gulp.start('copy', 'copyAssets', 'buildJs', 'buildCss');
+});
+
+gulp.task('watch', ['build'], function () {
+  gulp.watch(paths.ASSETS, ['copyAssets']);
+  gulp.watch(paths.HTML, ['copy']);
+  // watchify already watches buildJs task
+  gulp.watch(paths.SASS, ['buildCss']);
+});
+
+gulp.task('dev', ['connect', 'watch']);
