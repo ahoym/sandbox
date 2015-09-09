@@ -1,4 +1,4 @@
 import React from 'react';
-import Container from './components/container';
+import Hero from './components/hero';
 
-React.render(<Container />, document.getElementById('app'));
+React.render(<Hero />, document.getElementById('app'));

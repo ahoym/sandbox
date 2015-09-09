@@ -1,0 +1,32 @@
+.hero {
+  @extend .flex-container;
+  background: url('../assets/img/golden-gate.jpg') no-repeat center center fixed;
+  background-size: cover;
+  height: 100vh;
+
+  &__mid {
+    @extend .flex-container;
+    flex-flow: column wrap;
+    padding: 2em;
+    text-transform: uppercase;
+  }
+
+  &__name {
+    border-bottom: 1px solid #000;
+    color: black;
+    font-size: 6em;
+    padding-bottom: 0.25em;
+  }
+
+  &__title {
+    color: white;
+    letter-spacing: 0.1em;
+    margin-top: 1em;
+    margin-bottom: 7em;
+  }
+
+  &__btn {
+    color: white;
+    font-size: 0.75em;
+  }
+}
