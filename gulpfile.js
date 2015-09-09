@@ -2,6 +2,7 @@
 
 var babelify = require('babelify');
 var browserify = require('browserify');
+var del = require('del');
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var connect = require('gulp-connect');
@@ -24,6 +25,7 @@ var paths = {
   OUT: 'bundle.js',
   SASS: 'src/sass/**/*.scss'
 };
+var destinationDir = paths.DEV; //dev directory by default
 
 var buildBundle = function() {
   var jsDest = path.join(paths.DEV_SRC, 'js');
@@ -58,6 +60,10 @@ gulp.task('buildCss', function () {
 
 gulp.task('buildJs', buildBundle);
 
+gulp.task('clean', function () {
+  return del([ destinationDir ]);
+});
+
 gulp.task('connect', function () {
   connect.server({
     root: 'dev/',
@@ -79,11 +85,16 @@ gulp.task('copyAssets', function () {
     .pipe(connect.reload());
 });
 
-gulp.task('watch', ['copy', 'copyAssets', 'buildJs', 'buildCss'], function () {
+// Replace with gulp.series tasks when gulp 4 is complete
+gulp.task('build', ['clean'], function () {
+  return gulp.start('copy', 'copyAssets', 'buildJs', 'buildCss');
+});
+
+gulp.task('watch', ['build'], function () {
   gulp.watch(paths.ASSETS, ['copyAssets']);
   gulp.watch(paths.HTML, ['copy']);
   // watchify already watches buildJs task
   gulp.watch(paths.SASS, ['buildCss']);
 });
 
-gulp.task('default', ['connect', 'watch']);
+gulp.task('dev', ['connect', 'watch']);
