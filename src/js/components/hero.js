@@ -10,8 +10,8 @@ export default React.createClass({
       <div className={ classes }>
         <div className='hero__mid'>
           <h1 className='hero__name'>Malcolm Ahoy</h1>
-          <h2 className='hero__title'>Web Developer.</h2>
-          <button className='hero__btn'>Learn More</button>
+          <h2 className='hero__title'>Web Application Developer.</h2>
+          <button className='hero__btn'>Click Me</button>
         </div>
       </div>
     )
