@@ -1,5 +1,4 @@
-import React from 'react';
-import Hero from './components/hero';
+import startRouter from './router';
 
 
-React.render(<Hero />, document.getElementById('app'));
+startRouter(document.getElementById('app'));

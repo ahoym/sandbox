@@ -4,7 +4,8 @@
   "description": "My personal website and sandbox",
   "main": "index.js",
   "dependencies": {
-    "react": "^0.13.3"
+    "react": "^0.13.3",
+    "react-router": "1.0.0-rc1"
   },
   "devDependencies": {
     "babel-jest": "*",
@@ -23,7 +24,9 @@
   },
   "jest": {
     "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
-    "unmockedModulePathPatterns": ["<rootDir>/node_modules/react"]
+    "unmockedModulePathPatterns": [
+      "<rootDir>/node_modules/react"
+    ]
   },
   "scripts": {
     "test": "jest"
