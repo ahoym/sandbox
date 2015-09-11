@@ -10,6 +10,7 @@ var path = require('path');
 var reactify = require('reactify');
 var source = require('vinyl-source-stream');
 var sass = require('gulp-sass');
+var shell = require('gulp-shell');
 var watchify = require('watchify');
 
 var paths = {
@@ -85,15 +86,24 @@ gulp.task('copyAssets', function () {
     .pipe(connect.reload());
 });
 
+gulp.task('test', shell.task([
+  'npm test'
+]));
+
 // Replace with gulp.series tasks when gulp 4 is complete
 gulp.task('build', ['clean'], function () {
   return gulp.start('copy', 'copyAssets', 'buildJs', 'buildCss');
 });
 
 gulp.task('watch', ['build'], function () {
+  let jsFiles = [
+    'src/js/**/*.js',
+    '__tests__/**/*-test.js'
+  ];
+
   gulp.watch(paths.ASSETS, ['copyAssets']);
   gulp.watch(paths.HTML, ['copy']);
-  // watchify already watches buildJs task
+  gulp.watch(jsFiles, ['test']);
   gulp.watch(paths.SASS, ['buildCss']);
 });
 
