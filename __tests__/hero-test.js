@@ -5,9 +5,11 @@ describe('Hero view', function () {
   let Hero = require('../src/js/components/hero.js');
   let React = require('react/addons');
   let TestUtils = React.addons.TestUtils;
-  let heroView;
+  let heroView, clickMock;
 
   beforeEach(function () {
+    clickMock = jest.genMockFunction();
+    Hero.prototype.handleClick = clickMock;
     heroView = TestUtils.renderIntoDocument(<Hero />);
   });
 
@@ -34,4 +36,11 @@ describe('Hero view', function () {
     expect(btnEl.className).toBe('hero__btn');
     expect(btnEl.innerHTML).toBe('Get to know me');
   });
+
+  it('calls handleClick() when the button is clicked', function () {
+    let btn = TestUtils.findRenderedDOMComponentWithTag(heroView, 'button');
+    TestUtils.Simulate.click(btn);
+
+    expect(clickMock).toBeCalled();
+  })
 });
