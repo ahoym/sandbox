@@ -17,8 +17,8 @@ let bClasses = {
 };
 
 
-export default React.createClass({
-  render: function () {
+export default class GridUnit extends React.Component {
+  render() {
     let props = this.props;
     let leftUnitClasses = classNames(assign({}, lClasses, props.lClasses));
     let rightUnitClasses = classNames(assign({}, rClasses, props.rClasses));
@@ -31,6 +31,6 @@ export default React.createClass({
         <Section classNames={rightUnitClasses} symbol='&rarr;'/>
         <Section classNames={botUnitClasses} symbol='&darr;'/>
       </div>
-    )
-  }
-});
+    );
+  };
+};

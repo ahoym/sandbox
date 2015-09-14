@@ -1,18 +1,18 @@
 jest.autoMockOff();
 
 
-describe('Grid Unit', function () {
+describe('Grid Unit', () => {
   let GridUnit = require('../src/js/components/grid-unit.js');
   let React = require('react/addons');
   let TestUtils = React.addons.TestUtils;
   let gridUnitView;
 
-  beforeEach(function () {
+  beforeEach(() => {
     gridUnitView = TestUtils.renderIntoDocument(
                     <GridUnit middleContent=''/>);
   });
 
-  it('renders a left section', function () {
+  it('renders a left section', () => {
     let leftSection = TestUtils.findRenderedDOMComponentWithClass(
                         gridUnitView, 'grid-unit__left');
     let leftSectionEl = React.findDOMNode(leftSection);
@@ -23,7 +23,7 @@ describe('Grid Unit', function () {
     expect(lClasses).toContain('grid-unit--sides');
   });
 
-  it('renders a right section', function () {
+  it('renders a right section', () => {
     let rightSection = TestUtils.findRenderedDOMComponentWithClass(
                         gridUnitView, 'grid-unit__right');
     let rightSectionEl = React.findDOMNode(rightSection);
@@ -33,7 +33,7 @@ describe('Grid Unit', function () {
     expect(rClasses).toContain('grid-unit--sides');
   });
 
-  it('renders a bottom (bot) section', function () {
+  it('renders a bottom (bot) section', () => {
     let botSection = TestUtils.findRenderedDOMComponentWithClass(
                         gridUnitView, 'grid-unit__bot');
     let botSectionEl = React.findDOMNode(botSection);
