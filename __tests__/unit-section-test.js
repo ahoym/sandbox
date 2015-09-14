@@ -1,5 +1,3 @@
-import jest from 'jest';
-
 jest.autoMockOff();
 
 describe('Unit Section', () => {

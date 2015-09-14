@@ -1,5 +1,3 @@
-import jest from 'jest';
-
 jest.dontMock('../src/js/components/hero.js');
 
 
