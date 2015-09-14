@@ -3,9 +3,10 @@ import React from 'react';
 
 export default class Hero extends React.Component {
   handleClick(event) {
+    event.preventDefault();
     // can't use HTML5's pushState because react-router is hash based.
     window.location.hash = 'overview';
-  };
+  }
 
   render() {
     return (
@@ -19,6 +20,6 @@ export default class Hero extends React.Component {
           </button>
         </div>
       </div>
-    )
-  };
-};
+    );
+  }
+}
