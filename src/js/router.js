@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router, Route, Link } from 'react-router';
+import { Router, Route } from 'react-router';
 
 import Hero from './components/hero';
 import Overview from './components/content/overview';
