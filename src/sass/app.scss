@@ -1,6 +1,8 @@
 $app-font-family: 'Open Sans', sans-serif;
 
 @import url(https://fonts.googleapis.com/css?family=Open+Sans);
+@import 'base-properties';
+@import 'grid-unit';
 @import 'hero';
 
 
@@ -9,7 +11,7 @@ $app-font-family: 'Open Sans', sans-serif;
 }
 
 // override default webkit margin
-body, h1, h2 {
+body, h1, h2, p {
   margin: 0;
 }
 
