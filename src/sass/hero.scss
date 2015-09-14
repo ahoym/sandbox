@@ -1,6 +1,3 @@
-@import 'base-properties';
-
-
 .hero {
   @extend .flex-container;
   background: url('../assets/img/golden-gate.jpg') no-repeat center center fixed;

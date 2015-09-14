@@ -1,0 +1,56 @@
+.grid-unit {
+  @extend .flex-container;
+  background-color: #EFD75B;
+  width: 100vw;
+  height: 100vh;
+
+  ul {
+    list-style: none;
+  }
+
+  li {
+    margin: 2em 0;
+    text-align: left;
+
+    i {
+      margin-left: 1em;
+    }
+  }
+
+  button {
+    border: none;
+    padding: 0.75em;
+  }
+
+  &--sides {
+    @extend .flex-container;
+    flex-basis: 10vw;
+    flex-grow: 1;
+    height: 90vh;
+  }
+
+  &__left {
+    order: 1;
+  }
+
+  &__right {
+    order: 3;
+  }
+
+  &__mid {
+    @extend .flex-container;
+    flex: 15 0px;
+    flex-basis: 80vw;
+    height: 90vh;
+    padding: 2em;
+    order: 2;
+  }
+
+  &__bot {
+    @extend .flex-container;
+    align-self: flex-end;
+    flex-basis: 100vw;
+    height: 10vh;
+    order: 4;
+  }
+}
