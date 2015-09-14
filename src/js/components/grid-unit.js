@@ -23,7 +23,6 @@ export default React.createClass({
     let leftUnitClasses = classNames(assign({}, lClasses, props.lClasses));
     let rightUnitClasses = classNames(assign({}, rClasses, props.rClasses));
     let botUnitClasses = classNames(assign({}, bClasses, props.bClasses));
-    console.log(props.middleContent);
 
     return (
       <div className='grid-unit'>
