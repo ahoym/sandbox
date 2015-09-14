@@ -1,3 +1,5 @@
+import jest from 'jest';
+
 jest.dontMock('../src/js/components/hero.js');
 
 
@@ -5,7 +7,8 @@ describe('Hero view', () => {
   let Hero = require('../src/js/components/hero.js');
   let React = require('react/addons');
   let TestUtils = React.addons.TestUtils;
-  let heroView, clickMock;
+  let heroView;
+  let clickMock;
 
   beforeEach(() => {
     clickMock = jest.genMockFunction();
@@ -42,5 +45,5 @@ describe('Hero view', () => {
     TestUtils.Simulate.click(btn);
 
     expect(clickMock).toBeCalled();
-  })
+  });
 });

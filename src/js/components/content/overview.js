@@ -7,8 +7,8 @@ export default class Overview extends React.Component {
   constructor() {
     super();
     this.render = GridUnit.prototype.render.bind(this);
-  };
-};
+  }
+}
 Overview.defaultProps = {
   middleContent: (
     <div className='grid-unit__mid'>

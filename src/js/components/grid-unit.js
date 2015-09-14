@@ -32,5 +32,5 @@ export default class GridUnit extends React.Component {
         <Section classNames={botUnitClasses} symbol='&darr;'/>
       </div>
     );
-  };
-};
+  }
+}
