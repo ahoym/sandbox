@@ -5,14 +5,17 @@ import React from 'react';
 import Section from './unit-section';
 
 let lClasses = {
+  'slide-up': true,
   'grid-unit__left': true,
   'grid-unit--sides': true
 };
 let rClasses = {
+  'slide-up': true,
   'grid-unit__right': true,
   'grid-unit--sides': true
 };
 let bClasses = {
+  'slide-up': true,
   'grid-unit__bot': true
 };
 
@@ -25,7 +28,7 @@ export default class GridUnit extends React.Component {
     let botUnitClasses = classNames(assign({}, bClasses, props.bClasses));
 
     return (
-      <div className='grid-unit'>
+      <div className='grid-unit fade-in'>
         <Section classNames={leftUnitClasses} symbol='&larr;'/>
         {props.middleContent}
         <Section classNames={rightUnitClasses} symbol='&rarr;'/>
