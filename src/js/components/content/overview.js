@@ -11,7 +11,7 @@ export default class Overview extends React.Component {
 }
 Overview.defaultProps = {
   middleContent: (
-    <div className='grid-unit__mid'>
+    <div className='grid-unit__mid slide-up'>
       <ul>
         <li>
           <h1>A Simple Overview</h1>

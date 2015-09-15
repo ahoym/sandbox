@@ -1,10 +1,10 @@
-$app-font-family: 'Open Sans', sans-serif;
-
 @import url(https://fonts.googleapis.com/css?family=Open+Sans);
 @import 'base-properties';
+@import 'transitions';
 @import 'grid-unit';
 @import 'hero';
 
+$app-font-family: 'Open Sans', sans-serif;
 
 * {
   box-sizing: border-box;

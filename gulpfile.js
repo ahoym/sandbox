@@ -1,19 +1,20 @@
 'use strict';
 
-var babelify = require('babelify');
-var browserify = require('browserify');
-var del = require('del');
-var gulp = require('gulp');
-var gutil = require('gulp-util');
-var connect = require('gulp-connect');
-var path = require('path');
-var reactify = require('reactify');
-var source = require('vinyl-source-stream');
-var sass = require('gulp-sass');
-var shell = require('gulp-shell');
-var watchify = require('watchify');
+const autoprefixer = require('gulp-autoprefixer');
+const babelify = require('babelify');
+const browserify = require('browserify');
+const del = require('del');
+const gulp = require('gulp');
+const gutil = require('gulp-util');
+const connect = require('gulp-connect');
+const path = require('path');
+const reactify = require('reactify');
+const source = require('vinyl-source-stream');
+const sass = require('gulp-sass');
+const shell = require('gulp-shell');
+const watchify = require('watchify');
 
-var paths = {
+const paths = {
   ASSETS: [
     'src/assets/img/**/*'
   ],
@@ -24,12 +25,22 @@ var paths = {
   ],
   HTML: 'src/index.html',
   OUT: 'bundle.js',
-  SASS: 'src/sass/**/*.scss'
+  SASS: 'src/sass/app.scss'
 };
-var destinationDir = paths.DEV; //dev directory by default
+// dev directory by default
+const destinationDir = paths.DEV;
 
-var buildBundle = function() {
-  var jsDest = path.join(paths.DEV_SRC, 'js');
+const bundle = watchify(browserify({
+  entries: paths.ENTRY_POINTS,
+  transform: [ babelify, reactify ],
+  debug: true,
+  cache: {},
+  packageCache: {},
+  fullPaths: true
+}));
+
+const buildBundle = function () {
+  let jsDest = path.join(paths.DEV_SRC, 'js');
 
   return bundle.bundle()
     .on('error', gutil.log.bind(gutil, 'Browserify Error'))
@@ -38,23 +49,19 @@ var buildBundle = function() {
     .pipe(connect.reload());
 };
 
-var bundle = watchify(browserify({
-  entries: paths.ENTRY_POINTS,
-  transform: [babelify, reactify],
-  debug: true,
-  cache: {},
-  packageCache: {},
-  fullPaths: true
-}));
 bundle.on('update', buildBundle);
 bundle.on('log', gutil.log);
 
 
 gulp.task('buildCss', function () {
-  var cssDest = path.join(paths.DEV_SRC, 'css');
+  let cssDest = path.join(paths.DEV_SRC, 'css');
 
   return gulp.src(paths.SASS)
     .pipe(sass.sync().on('error', sass.logError))
+    .pipe(autoprefixer({
+      browsers: [ 'last 2 versions' ],
+      cascade: false
+    }))
     .pipe(gulp.dest(cssDest))
     .pipe(connect.reload());
 });
@@ -79,7 +86,7 @@ gulp.task('copy', function () {
 });
 
 gulp.task('copyAssets', function () {
-  var distAssets = path.join(paths.DEV_SRC, 'assets');
+  let distAssets = path.join(paths.DEV_SRC, 'assets');
 
   return gulp.src(paths.ASSETS, { base: 'src/assets/' })
     .pipe(gulp.dest(distAssets))
@@ -91,20 +98,20 @@ gulp.task('test', shell.task([
 ]));
 
 // Replace with gulp.series tasks when gulp 4 is complete
-gulp.task('build', ['clean'], function () {
+gulp.task('build', [ 'clean' ], function () {
   return gulp.start('copy', 'copyAssets', 'buildJs', 'buildCss');
 });
 
-gulp.task('watch', ['build'], function () {
+gulp.task('watch', [ 'build' ], function () {
   let jsFiles = [
     'src/js/**/*.js',
     '__tests__/**/*-test.js'
   ];
 
-  gulp.watch(paths.ASSETS, ['copyAssets']);
-  gulp.watch(paths.HTML, ['copy']);
-  gulp.watch(jsFiles, ['test']);
-  gulp.watch(paths.SASS, ['buildCss']);
+  gulp.watch(paths.ASSETS, [ 'copyAssets' ]);
+  gulp.watch(paths.HTML, [ 'copy' ]);
+  gulp.watch(jsFiles, [ 'test' ]);
+  gulp.watch('src/sass/**/*.scss', [ 'buildCss' ]);
 });
 
-gulp.task('dev', ['connect', 'watch']);
+gulp.task('dev', [ 'connect', 'watch' ]);

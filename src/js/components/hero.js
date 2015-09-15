@@ -13,7 +13,7 @@ export default class Hero extends React.Component {
       <div className='hero'>
         <div className='hero__mid'>
           <h1 className='hero__name'>Malcolm Ahoy</h1>
-          <h2 className='hero__title'>Web Application Developer.</h2>
+          <h2 className='hero__title slow-fade-in'>Web Application Developer.</h2>
           <button className='hero__btn'
                   onClick={this.handleClick}>
             Get to know me

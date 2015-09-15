@@ -1,5 +1,3 @@
-import jest from 'jest';
-
 jest.dontMock('../src/js/components/hero.js');
 
 
@@ -28,7 +26,7 @@ describe('Hero view', () => {
     let h2 = TestUtils.findRenderedDOMComponentWithTag(heroView, 'h2');
     let h2El = React.findDOMNode(h2);
 
-    expect(h2El.className).toBe('hero__title');
+    expect(h2El.className).toContain('hero__title');
     expect(h2El.innerHTML).toBe('Web Application Developer.');
   });
 
