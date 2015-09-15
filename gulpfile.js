@@ -1,5 +1,6 @@
 'use strict';
 
+const autoprefixer = require('gulp-autoprefixer');
 const babelify = require('babelify');
 const browserify = require('browserify');
 const del = require('del');
@@ -24,7 +25,7 @@ const paths = {
   ],
   HTML: 'src/index.html',
   OUT: 'bundle.js',
-  SASS: 'src/sass/**/*.scss'
+  SASS: 'src/sass/app.scss'
 };
 // dev directory by default
 const destinationDir = paths.DEV;
@@ -57,6 +58,10 @@ gulp.task('buildCss', function () {
 
   return gulp.src(paths.SASS)
     .pipe(sass.sync().on('error', sass.logError))
+    .pipe(autoprefixer({
+      browsers: [ 'last 2 versions' ],
+      cascade: false
+    }))
     .pipe(gulp.dest(cssDest))
     .pipe(connect.reload());
 });
@@ -106,7 +111,7 @@ gulp.task('watch', [ 'build' ], function () {
   gulp.watch(paths.ASSETS, [ 'copyAssets' ]);
   gulp.watch(paths.HTML, [ 'copy' ]);
   gulp.watch(jsFiles, [ 'test' ]);
-  gulp.watch(paths.SASS, [ 'buildCss' ]);
+  gulp.watch('src/sass/**/*.scss', [ 'buildCss' ]);
 });
 
 gulp.task('dev', [ 'connect', 'watch' ]);
