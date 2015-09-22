@@ -12,19 +12,21 @@ export default class Piano extends React.Component {
 
   componentDidMount() {
     this.keyboard = generateKeyboard();
-    this.warningBtn = document.querySelector('.piano__lift-warning');
-    this.warningBtn.addEventListener('click', this.removeWarning.bind(this));
+    this.warningBtn = document.querySelector('.piano__lift-warning button');
+    this.warningBtn.addEventListener('click', this.removeWarning);
   }
 
   componentWillUnmount() {
     this.warningBtn.removeEventListener('click', this.removeWarning);
   }
 
-  removeWarning() {
+  removeWarning(event) {
+    event.preventDefault();
+    let warningText = document.querySelector('.piano__lift-warning');
     let warning = document.querySelector('.piano__warning');
     let keyboard = document.querySelector('#keyboard');
 
-    this.warningBtn.classList.add('fade-out', 'unclickable');
+    warningText.classList.add('fade-out', 'unclickable');
     warning.classList.add('slide-down-keyboard-cover');
 
     setTimeout(() => keyboard.removeChild(warning), 500);
@@ -54,14 +56,12 @@ Piano.defaultProps = {
             QwertyHancock into their files.
           </p>
         </li>
-        <li>
+        <li className='piano__lift-warning'>
           <p>
             CAUTION!! Headphone users, playing the keyboard will break your ears!
             Please remove them if you want to live!
           </p>
-        </li>
-        <li>
-          <button className='piano__lift-warning'>I Understand</button>
+          <button>I Understand</button>
         </li>
         <li>
           <div id='keyboard' className='slow-fade-in'>
