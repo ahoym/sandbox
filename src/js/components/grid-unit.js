@@ -20,20 +20,42 @@ let bClasses = {
 };
 
 
+function assignClasses(destination, baseClasses) {
+  let metaClasses = {
+    unclickable: !destination,
+    hidden: !destination
+  };
+
+  let allClasses = assign(metaClasses, baseClasses);
+
+  return classNames(allClasses);
+}
+
 export default class GridUnit extends React.Component {
   render() {
-    let props = this.props;
-    let leftUnitClasses = classNames(assign({}, lClasses, props.animateInClass));
-    let rightUnitClasses = classNames(assign({}, rClasses, props.animateInClass));
-    let botUnitClasses = classNames(assign({}, bClasses, props.animateInClass));
+    let leftUnitClasses = assignClasses(this.props.leftDest, lClasses);
+    let rightUnitClasses = assignClasses(this.props.rightDest, rClasses);
+    let botUnitClasses = assignClasses(this.props.botDest, bClasses);
 
     return (
       <div className='grid-unit fade-in'>
-        <Section classNames={leftUnitClasses} symbol='&larr;'/>
-        {props.middleContent}
-        <Section classNames={rightUnitClasses} symbol='&rarr;'/>
-        <Section classNames={botUnitClasses} symbol='&darr;'/>
+        <Section classNames={leftUnitClasses}
+                 destination={this.props.leftDest}
+                 symbol='◀'/>
+       {this.props.middleContent}
+        <Section classNames={rightUnitClasses}
+                 destination={this.props.rightDest}
+                 symbol='▶'/>
+        <Section classNames={botUnitClasses}
+                 destination={this.props.botDest}
+                 symbol='▼'/>
       </div>
     );
   }
 }
+GridUnit.propTypes = {
+  leftDest: React.PropTypes.string,
+  rightDest: React.PropTypes.string,
+  botDest: React.PropTypes.string,
+  middleContent: React.PropTypes.node
+};
