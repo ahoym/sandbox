@@ -11,7 +11,7 @@ import Piano from './components/content/piano';
  */
 const App = React.createClass({
   propTypes: {
-    children: React.PropTypes.node,
+    children: React.PropTypes.element,
     location: React.PropTypes.object
   },
 
