@@ -10,9 +10,9 @@ export default class Overview extends React.Component {
   }
 }
 Overview.defaultProps = {
-  animateInClass: {
-    'slide-up': true
-  },
+  leftDest: '',
+  rightDest: 'piano',
+  botDest: '',
   middleContent: (
     <div className='grid-unit__mid slide-up'>
       <ul>

@@ -33,9 +33,6 @@ export default class Piano extends React.Component {
   }
 }
 Piano.defaultProps = {
-  animateInClass: {
-    'slide-right': true
-  },
   middleContent: (
     <div className='grid-unit__mid slide-right piano'>
       <ul>

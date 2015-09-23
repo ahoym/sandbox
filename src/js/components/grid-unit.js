@@ -6,14 +6,17 @@ import Section from './unit-section';
 
 let lClasses = {
   'grid-unit__left': true,
-  'grid-unit--sides': true
+  'grid-unit--sides': true,
+  'slide-left': true
 };
 let rClasses = {
   'grid-unit__right': true,
-  'grid-unit--sides': true
+  'grid-unit--sides': true,
+  'slide-right': true
 };
 let bClasses = {
-  'grid-unit__bot': true
+  'grid-unit__bot': true,
+  'slide-down': true
 };
 
 
