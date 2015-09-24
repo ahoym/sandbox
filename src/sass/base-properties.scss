@@ -4,3 +4,11 @@
   flex-flow: row wrap;
   justify-content: center;
 }
+
+.unclickable {
+  pointer-events: none;
+}
+
+.hidden {
+  visibility: hidden;
+}

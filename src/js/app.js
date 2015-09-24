@@ -3,6 +3,7 @@ import { Router, Route, IndexRoute } from 'react-router';
 
 import Hero from './components/hero';
 import Overview from './components/content/overview';
+import Piano from './components/content/piano';
 
 /**
  * Create React component in ES5 fashion because creating an ES6
@@ -10,7 +11,7 @@ import Overview from './components/content/overview';
  */
 const App = React.createClass({
   propTypes: {
-    children: React.PropTypes.node,
+    children: React.PropTypes.element,
     location: React.PropTypes.object
   },
 
@@ -31,6 +32,7 @@ React.render((
     <Route path='/' component={App}>
       <IndexRoute component={Hero}/>
       <Route path='overview' component={Overview}/>
+      <Route path='piano' component={Piano}/>
       <Route path='*' component={Hero}/>
     </Route>
   </Router>
